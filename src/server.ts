@@ -18,6 +18,9 @@ const __dirname = path.dirname(__filename);
 // servir frontend
 app.use('/', express.static(path.join(__dirname, '..', 'public')));
 
+// healthcheck (antes de listen)
+app.get('/health', (_req, res) => res.status(200).send('ok'));
+
 /** GET /api/items -> lista todos */
 app.get('/api/items', async (_req: Request, res: Response) => {
     const items = await prisma.item.findMany({ orderBy: { id: 'asc' } });
@@ -74,7 +77,18 @@ app.delete('/api/items/:id', async (req: Request, res: Response) => {
     }
 });
 
+// arranque (una sola vez, con 0.0.0.0)
 const port = Number(process.env.PORT || 3000);
-app.listen(port, () => {
-    console.log(`Servidor en http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Servidor listo en puerto ${port}`);
+});
+
+// opcional: cierre ordenado de Prisma
+process.on('SIGINT', async () => {
+    await prisma.$disconnect();
+    process.exit(0);
+});
+process.on('SIGTERM', async () => {
+    await prisma.$disconnect();
+    process.exit(0);
 });

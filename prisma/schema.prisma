@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = env("PRISMA_DB_PROVIDER") // "sqlite" en local, "postgresql" en prod
-  url      = env("DATABASE_URL")
+  provider = "postgresql"        // <- literal, no env()
+  url      = env("DATABASE_URL") // viene del plugin de Postgres en Railway
 }
 
 model Item {

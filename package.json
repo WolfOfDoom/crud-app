@@ -6,7 +6,7 @@
         "dev": "tsx src/server.ts",
         "build": "tsc",
         "postinstall": "prisma generate",
-        "start": "prisma db push && node dist/server.js"
+        "start": "node scripts/boot.js"
     },
     "dependencies": {
         "@prisma/client": "^5.22.0",

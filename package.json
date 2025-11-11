@@ -5,8 +5,8 @@
     "scripts": {
         "dev": "tsx src/server.ts",
         "build": "tsc",
-        "start": "node --enable-source-maps dist/server.js",
-        "postinstall": "prisma generate && prisma db push && npm run build"
+        "postinstall": "prisma generate",
+        "start": "prisma db push && node dist/server.js"
     },
     "dependencies": {
         "@prisma/client": "^5.22.0",

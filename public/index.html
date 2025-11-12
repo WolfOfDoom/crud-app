@@ -125,10 +125,15 @@
 
         async function createItem(e) {
             e.preventDefault();
+            if (document.getElementById('detailId').value) return; // <- evita el POST cuando editas
             const payload = bodyFromInputs();
-            const res = await fetch('/api/items', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            const res = await fetch('/api/items', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
             if (res.ok) { e.target.reset(); await refresh(); } else alert('Error al crear');
         }
+
 
         async function del(id) {
             if (!confirm('¿Eliminar?')) return;
